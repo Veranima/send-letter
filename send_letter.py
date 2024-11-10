@@ -1,24 +1,43 @@
-import smtplib
-
-from email.mime.multipart import MIMEMultipart
+import smtplib 
+from email.mime.multipart import MIMEMultipart 
 from email.mime.text import MIMEText
-#from email.mime.base import MIMEImage
-
-smpt_server = 'smtp.mail.ru'
-smpt_port = 465 #меняется
-smpt_user = 'почта отправителя'
-smpt_pass = 'пароль отправителя'
-
-message = MIMEMultipart()
-message['From'] = 'почта отправителя'
-message['To'] = 'Почта получателя'
-message['Subgect'] = 'Тема сообщения'
-
-message.attach(MIMEText('Текст сообщения', 'plain'))
-
-with smtplib.SMTP(smpt_server, smpt_port) as smtp:
-  
-  server.starttls()
-  server.login(почта отправителя, пароль отправителя)
-  server.message('Текст сообщения')
-  server.quit()
+ 
+def send_email_yandex(sender_email, password, receiver_email, subject, body): 
+    # Настройка SMTP-сервера 
+    smtp_server = "smtp.yandex.ru" 
+    smtp_port = 465
+ 
+# Создаем объект сообщения 
+    msg = MIMEMultipart() 
+    msg['From'] = sender_email 
+    msg['To'] = receiver_email 
+    msg['Subject'] = subject
+ 
+# Добавляем тело письма 
+    msg.attach(MIMEText(body, 'plain'))
+ 
+    try: 
+    # Установка соединения с сервером 
+        server = smtplib.SMTP_SSL(smtp_server, smtp_port)
+        server.login(sender_email, password)
+ 
+    # Отправка письма 
+        server.send_message(msg) 
+        print("Письмо успешно отправлено")
+ 
+    except Exception as e: 
+        print(f"Произошла ошибка: {e}")
+ 
+    finally: 
+    
+    # Закрытие соединения с сервером \
+        server.quit()
+ 
+sender_email = "почта отправителя" 
+password = "пароль отправителя" 
+# Пароль приложения из настроек Яндекса 
+receiver_email = "почта получателя" 
+subject = "тема сообщения" 
+body = "текст сообщения"
+ 
+send_email_yandex(sender_email, password, receiver_email, subject, body)
